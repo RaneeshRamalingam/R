@@ -1,2 +1,190 @@
-# R
-wish
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Special Rose Wish</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body{
+      margin:0; padding:0;
+      display:flex; align-items:center; justify-content:center;
+      height:100vh; font-family:"Poppins", sans-serif;
+      background: linear-gradient(135deg,#ffb6c1,#ff4d79);
+      overflow:hidden; color:#fff; text-align:center;
+    }
+    .container{
+      max-width: 600px;
+      padding:25px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 25px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      backdrop-filter: blur(10px);
+      z-index:2;
+      position:relative;
+      animation: fadeIn 1s ease;
+    }
+    h1{ margin-bottom:15px; font-size:28px }
+    p{ font-size:18px; line-height:1.6 }
+    input{
+      padding:10px 15px;
+      border-radius: 10px;
+      border:none; outline:none;
+      width:80%; font-size:16px;
+    }
+    button{
+      margin-top:15px;
+      padding:10px 20px;
+      font-size:16px;
+      border:none; border-radius:10px;
+      background:#fff; color:#c2185b;
+      cursor:pointer;
+      font-weight:600;
+      transition: 0.3s;
+    }
+    button:hover{
+      background:#ff4d79;
+      color:#fff;
+    }
+    .hidden{ display:none }
+
+    /* Slideshow styling */
+    .slideshow{
+      position: relative;
+      width: 240px; height: 240px;
+      margin: 0 auto;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 6px solid #ff4d79;
+      box-shadow:0 0 25px #ff4d79;
+    }
+    .slideshow img{
+      position: absolute;
+      top:0; left:0;
+      width:100%; height:100%;
+      object-fit: cover;
+      opacity:0;
+      animation: fadeSlide 12s infinite;
+    }
+    .slideshow img:nth-child(1){ animation-delay: 0s; }
+    .slideshow img:nth-child(2){ animation-delay: 4s; }
+    .slideshow img:nth-child(3){ animation-delay: 8s; }
+
+    @keyframes fadeSlide{
+      0%{ opacity:0 }
+      10%{ opacity:1 }
+      30%{ opacity:1 }
+      40%{ opacity:0 }
+      100%{ opacity:0 }
+    }
+
+    /* Falling rose petals */
+    .petal{
+      position:absolute; top:-10vh;
+      font-size:24px; opacity:0.8;
+      animation: fall linear infinite;
+    }
+    @keyframes fall{
+      0%{ transform: translateY(0) rotate(0deg); opacity:1 }
+      100%{ transform: translateY(110vh) rotate(360deg); opacity:0 }
+    }
+  </style>
+</head>
+<body>
+  <!-- Page 1 -->
+  <div class="container" id="page1">
+    <h1>🌹 Enter your name 🌹</h1>
+    <input type="text" id="nameInput" placeholder="Type your name">
+    <br>
+    <button onclick="checkName()">Submit</button>
+  </div>
+
+  <!-- Page 2 -->
+  <div class="container hidden" id="page2">
+    <h1>Hi kullachi 🌸</h1>
+    <p>I was waiting for this moment to send you something special 💖</p>
+    <button onclick="nextPage(3)">Next ➡️</button>
+  </div>
+
+  <!-- Page 3 -->
+  <div class="container hidden" id="page3">
+    <h1>🌹 Like a Rose 🌹</h1>
+    <p>You brighten my life just like roses brighten the world 🌎✨</p>
+    <button onclick="nextPage(4)">Next ➡️</button>
+  </div>
+
+  <!-- Page 4 -->
+  <div class="container hidden" id="page4">
+    <h1>💕 My Wish 💕</h1>
+    <p>Every single moment with you is so special to me 🌟</p>
+    <button onclick="nextPage(5)">Next ➡️</button>
+  </div>
+
+  <!-- Page 5 -->
+  <div class="container hidden" id="page5">
+    <h1>🎉 Special Wishes 🎉</h1>
+    <p>Happy Birthday kullachi 🌹<br>May your life be filled with love, happiness and success forever 💕</p>
+    <button onclick="nextPage(6)">See Surprise 🌹</button>
+  </div>
+
+  <!-- Page 6 (Slideshow) -->
+  <div class="container hidden" id="page6">
+    <h1>🌹 Just for You 🌹</h1>
+    <div class="slideshow">
+      <img src="WhatsApp Image 2025-09-21 at 11.30.46 PM (2).jpeg" alt="Photo 1">
+      <img src="Whatsapp Image 2025-09-21 at 11.42.46 PM.jpeg" alt="Photo 2">
+      <img src="WhatsApp Image 2025-09-21 at 11.30.46 PM (1).jpeg" alt="Photo 3">
+    </div>
+    <button onclick="restart()">🔄 See Again</button>
+  </div>
+
+  <!-- Rose petals container -->
+  <div id="petals"></div>
+
+  <script>
+    function checkName(){
+      const name = document.getElementById("nameInput").value.trim().toLowerCase();
+      const correctName = "kullachi"; // change to her name
+      if(name === correctName){
+        showPage(2);
+        makePetals();
+      } else {
+        alert("Oops 🌹 Wrong name, try again!");
+      }
+    }
+
+    function nextPage(n){
+      showPage(n);
+      makePetals();
+    }
+
+    function showPage(n){
+      for(let i=1;i<=6;i++){
+        document.getElementById("page"+i).classList.add("hidden");
+      }
+      document.getElementById("page"+n).classList.remove("hidden");
+    }
+
+    function restart(){
+      // Reset input box also
+      document.getElementById("nameInput").value = "";
+      showPage(1);
+    }
+
+    // Rose Petals
+    function makePetals(){
+      const petals = document.getElementById("petals");
+      for(let i=0;i<10;i++){
+        let petal = document.createElement("span");
+        petal.classList.add("petal");
+        petal.innerHTML = "🌹";
+        petal.style.left = Math.random()*100 + "vw";
+        petal.style.animationDuration = (5+Math.random()*5) + "s";
+        petal.style.fontSize = (20+Math.random()*15) + "px";
+        petal.style.animationDelay = Math.random()*3 + "s";
+        petals.appendChild(petal);
+        setTimeout(()=>{petal.remove()},10000);
+      }
+    }
+  </script>
+</body>
+</html>
